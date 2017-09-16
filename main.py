@@ -6,36 +6,26 @@ import re
 def main():
 
 	syslog = []
+	refresh = True
 
-	tail = subprocess.Popen('tail -f -n 1 /mnt/syslog/**/*.log', shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-	database = []
-	
 	while True:
-		line = tail.stdout.readline()
-		line = line.strip('\n')
+
+		tail = subprocess.Popen('tail -f -n 0 /mnt/syslog/**/*.log', shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+		refresh = True
 		
-		if(re.search('mnt',line)): 
-			if(not database):
-				database.append(line)
-				purge = True
-			elif(line in database):
-				print 'IN DATABASE: %s' % line
-				purge = False
-			else:
-				database.append(line)
-				purge = True
+		while refresh:
+			line = tail.stdout.readline()
+			line = line.strip('\n')
 			
-		elif(line == ''):
-			pass
-		
-		elif(purge):
-			purge = False
-			pass
-		
-		else:
-			syslog.append(line)
-			multithread_engine(syslog)
-			del syslog[:]
+			if(re.search('mnt',line) or line == ''): 
+				pass
+			
+			else:
+				syslog.append(line)
+				multithread_engine(syslog)
+				del syslog[:]
+				tail.kill()
+				refresh = False
 
 if __name__ == '__main__':
 	main()
