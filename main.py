@@ -7,30 +7,45 @@ def main():
 
 	syslog = []
 	refresh = True
+	purge = True
+	history = []
 
 	while True:
+		if(purge):
+			tail = subprocess.Popen('tail -f -n 0 /mnt/syslog/**/*.log', shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+			before_count = int(ls())
+		
+		else:
+			tail = subprocess.Popen('tail -f -n 20 /mnt/syslog/**/*.log', shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+			before_count = int(ls())
 
-		tail = subprocess.Popen('tail -f -n 0 /mnt/syslog/**/*.log', shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-		before_count = int(ls())
+
 		refresh = True
 		
 		while refresh:
 			line = tail.stdout.readline()
 			line = line.strip('\n')
+			current_count = int(ls())
+			if(current_count > before_count):
+				tail.kill()
+				purge = False
+				refresh = False
 			
 			if(re.search('mnt',line) or line == ''): 
 				pass
 			
 			else:
-				syslog.append(line)
-				multithread_engine(syslog)
-				del syslog[:]
-				current_count = int(ls())
-				print 'Before Count: %s' % before_count
-				print 'Current Count: %s' % current_count
-				if(current_count > before_count):
-					tail.kill()
-					refresh = False
+				if(line in history):
+					pass
+				else:
+					syslog.append(line)
+					if(len(history)<=20):
+						history.append(line)
+					elif(len(history)>20):
+						history.pop(0)
+					multithread_engine(syslog)
+					print len(history)
+					del syslog[:]
 
 def ls():
 
