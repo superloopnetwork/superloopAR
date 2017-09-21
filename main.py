@@ -39,9 +39,9 @@ def main():
 					pass
 				else:
 					syslog.append(line)
-					if(len(history)<=50):
+					if(len(history)<=1000):
 						history.append(line)
-					elif(len(history)>50):
+					elif(len(history)>1000):
 						history.pop(0)
 					multithread_engine(syslog)
 					del syslog[:]
