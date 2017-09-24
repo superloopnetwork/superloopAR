@@ -8,6 +8,4 @@ def remediation(dstamp,tstamp,device,error_code,error_message,ntw_device):
 
 	device = module(*ntw_device)
 
-	device.troubleshoot()
-
-	
+	device.remediate(dstamp,tstamp,device,error_code,error_message)

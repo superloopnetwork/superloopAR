@@ -4,7 +4,7 @@ from initialize import Initialize
 
 class Default(Initialize):
 
-	def troubleshoot(self):
+	def remediate(self,dstamp,tstamp,device,error_code,error_message):
 
 		print 'DEFAULT REMEDIATION'
 

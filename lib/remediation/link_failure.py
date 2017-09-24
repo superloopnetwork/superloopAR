@@ -4,6 +4,7 @@ from initialize import Initialize
 
 class LinkFailure(Initialize):
 
-	def troubleshoot(self):
+	def remediate(self,dstamp,tstamp,device,error_code,error_message):
 		print 'LINK FAILURE'
+		print dstamp,device
 
