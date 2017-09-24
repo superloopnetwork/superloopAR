@@ -33,5 +33,3 @@ def get_ntw_device(device):
 		ntw_device = element.split(',')
 		if(device == ntw_device[0]):
 			return ntw_device 
-		else:
-			print 'DEVICE FROM SYSLOG IS NOT IN MASTER DEVICE LIST'
