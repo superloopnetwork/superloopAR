@@ -1,0 +1,8 @@
+########################## ARISTA CLASS ##########################
+
+from initialize import Initialize
+
+class AristaPlatform(Initialize):
+	
+    def link_failure(self):
+		pass

@@ -1,5 +1,6 @@
 from parser import parser
 from multithread import multithread_engine
+import lib.globalvar
 import subprocess
 import re
 
@@ -9,6 +10,7 @@ def main():
 	refresh = True
 	purge = True
 	history = []
+	lib.globalvar.variables()
 
 	while True:
 		if(purge):

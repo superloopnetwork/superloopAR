@@ -20,9 +20,6 @@ def parser(syslog_line):
 
 	event(dstamp,tstamp,device,error_code,error_message,ntw_device)
 
-	print dstamp, tstamp, device, error_code, error_message
-
-
 def get_ntw_device(device):
 
 	f = open('master_device_list')

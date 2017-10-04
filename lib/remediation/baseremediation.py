@@ -2,6 +2,7 @@
 
 from netmiko import ConnectHandler
 import base64
+import re
 
 
 class BaseRemediation(object):
@@ -51,4 +52,19 @@ class BaseRemediation(object):
 			device_attribute = 'cisco_asa'
 
 		return device_attribute
+
+	def get_error_message_interface(self,error_message):
+		INTERFACE_RE = r'\s(.+?\d/\d/\d.)'
+		interface = re.search(INTERFACE_RE,error_message).group(1)
+		
+		return interface
+				
+	def get_interface_status(self,interface):
+		INTERFACE_STATUS_RE = r'\((.+?)\)'
+		show_interface_status = self.net_connect.send_config('show interface status | include %s' % interface)
+		list = show_interface_status.split('\n')[0]
+
+		interface_status = re.search(INTERFACE_STATUS_RE,interface).group(1)
+
+		return interface_status
 

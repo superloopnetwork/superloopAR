@@ -3,7 +3,7 @@ from lib.remediation import link_failure
 from lib.remediation import default 
 
 ERROR_CODES_TO_REMEDIATIONS = {
-	'LINEPROTO-5-UPDOWN': link_failure.LinkFailure
+	'LINK-3-UPDOWN': link_failure.LinkFailure
 }
 
 DEFAULT_REMEDIATION = {
