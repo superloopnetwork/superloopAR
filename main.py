@@ -16,10 +16,15 @@ def main():
 
 	while True:
 		if(purge):
+
+			### THIS PROCESS IS RUNNING IN THE BACKGROUND. ON THE VERY FIRST RUN THERE WILL BE NO LOGS.
 			tail = subprocess.Popen('tail -f -n 0 /mnt/syslog/**/*.log', shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 			before_count = int(ls())
 		
 		else:
+
+			### THIS ALGORITHM SUPPORTS A RE-EXECUTION OF SUPERLOOPAR. IF A RE-TAIL WAS TO HAPPEN, IT WILL ACCOMODATE 20 LINES OF LOGS
+			### FROM ALL DEVICES WITHIN THE HISTORY
 			tail = subprocess.Popen('tail -f -n 20 /mnt/syslog/**/*.log', shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 			before_count = int(ls())
 
@@ -27,6 +32,8 @@ def main():
 		refresh = True
 		
 		while refresh:
+
+			### IF THERE ARE NO LOG LINES TO PARSE, IT SITS AND WAITS HERE UNTIL THERE IS A LOG LINE TO PARSE
 			line = tail.stdout.readline()
 			line = line.strip('\n')
 			current_count = int(ls())
