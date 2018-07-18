@@ -1,5 +1,7 @@
 ####################### ENGINE FUNCTIONS ########################
 
+### AN OBJECT IS CREATED FOR EACH EVENT OR SYSLOG ENTRY OUTPUT
+
 from parser import parser
 import threading
 import time
