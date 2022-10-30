@@ -4,12 +4,15 @@ import re
 
 def parser(syslog_line):
 
-	INTERFACE_RE = r'(\w+\d+\/\d+)'
-	DATESTAMP_RE = r'(.+?\s+\d+)'
-	TIMESTAMP_RE = r'(\d+:\d+:\d+)'
+	COLUMN_DELIMITER_RE = r'(\s+)'
 	DEVICE_IP_RE = r'(\d+\.\d+\.\d+\.\d+)'
-	ERROR_CODE_RE = r'%([^:]+):'
-	ERROR_MESSAGE_RE = r'%.+:\s(.*)'
+	DATESTAMP_RE = r'(.+?\s+\d+)'
+	ERROR_CODE_RE = r'%(\S+):'
+	ERROR_MESSAGE_RE = r'(.*)'
+	INTERFACE_RE = r'(\w+\d+\/\d+)'
+	HOSTNAME_RE = r'(\S+)'
+	TIMESTAMP_RE = r'(\d+:\d+:\d+.\d+)'
+	USER_ID_RE = r'by\s(\w+\.\w+)\s'
 	
 	dstamp = re.search(DATESTAMP_RE, syslog_line).group(1)
 	tstamp = re.search(TIMESTAMP_RE, syslog_line).group(1)
